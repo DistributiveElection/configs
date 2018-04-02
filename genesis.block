@@ -1,0 +1,77 @@
+{
+    "signatures": [],
+    "created_ts": 0,
+    "hash": "ef9781aadf6d4d5ac8d01e14f7bbc805278ed9bb7200dafe8335bfc3a254e82b",
+    "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "height": 1,
+    "txs_number": 1,
+    "transactions": [
+        {
+            "signatures": [],
+            "created_ts": 0,
+            "creator_account_id": "",
+            "tx_counter": 0,
+            "commands": [
+                {
+                    "command_type": "AddPeer",
+                    "peer": {
+                        "address": "localhost:10001",
+                        "peer_key": "292a8714694095edce6be799398ed5d6244cd7be37eb813106b217d850d261f2"
+                    }
+                },
+                {
+                    "command_type": "CreateRole",
+                    "role_name": "manager",
+                    "permissions": [
+                        "can_create_domain",
+                        "can_add_asset_qty",
+                        "can_attach_role",
+                        "can_detach_role",
+                        "can_create_account",
+                        "can_transfer",
+                        "can_receive",
+                        "can_get_all_acc_ast"
+                    ]
+                },
+                {
+                    "command_type": "CreateRole",
+                    "role_name": "observer",
+                    "permissions": [
+                        "can_get_all_acc_ast"
+                    ]
+                },
+                {
+                    "command_type": "CreateRole",
+                    "role_name": "voter",
+                    "permissions": [
+                        "can_transfer",
+                        "can_get_all_acc_ast"
+                    ]
+                },
+                {
+                    "command_type": "CreateRole",
+                    "role_name": "candidate",
+                    "permissions": [
+                        "can_receive"
+                    ]
+                },
+                {
+                    "command_type": "CreateDomain",
+                    "domain_id": "global",
+                    "user_default_role": "observer"
+                },
+                {
+                    "command_type": "CreateAccount",
+                    "account_name": "manager",
+                    "domain_id": "global",
+                    "pubkey": "407e57f50ca48969b08ba948171bb2435e035d82cec417e18e4a38f5fb113f83"
+                },
+                {
+                    "command_type": "AppendRole",
+                    "account_id": "manager@global",
+                    "role_name": "admin"
+                }
+            ]
+        }
+    ]
+}
