@@ -20,7 +20,6 @@ manager_priv = open("manager@global.priv", "r").read()
 
 key_pair = crypto.convertFromExisting(manager_pub, manager_priv)
 
-current_time = int(round(time.time() * 1000)) - 10**5
 creator = "manager@global"
 tx_counter = 1
 query_counter = 1
@@ -38,7 +37,6 @@ def get_status(tx):
         tx_hash = ''.join(map(chr, tx_hash))
     else:
         tx_hash = bytes(tx_hash)
-
 
     request = endpoint_pb2.TxStatusRequest()
     request.tx_hash = tx_hash
