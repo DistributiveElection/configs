@@ -180,7 +180,21 @@ def get_account_asset(user, asset):
 
     query_counter += 1
 
-    print(query_response)
+
+    return dump_object(query_response)
+
+def dump_object(obj):
+    for descriptor in obj.DESCRIPTOR.fields:
+        value = getattr(obj, descriptor.name)
+        if descriptor.type == descriptor.TYPE_MESSAGE:
+            if descriptor.label == descriptor.LABEL_REPEATED:
+                map(dump_object, value)
+            else:
+                return dump_object(value)
+        else:
+            if descriptor.full_name == 'iroha.protocol.uint256.fourth':
+                return value
+    return 0
 
 ##########################
 
@@ -234,15 +248,15 @@ candidates = (white_one, grey_one)
 
 add_poll(poll_name, candidates, voters)
 
-# get_account_asset(alexey.name + '@global', 'vote#' + poll_name)
+print('alexey asset is: ' + str(get_account_asset(alexey.name + '@global', 'vote#' + poll_name)))
 vote(alexey, white_one, poll_name)
 vote(dumitru, white_one, poll_name)
 
-# get_account_asset(alexey.name + '@global', 'vote#global')
-get_account_asset(white_one.name + '@' + poll_name, 'vote#' + poll_name)
-get_account_asset(grey_one.name + '@' + poll_name, 'vote#' + poll_name)
+print('alexey asset is: ' + str(get_account_asset(alexey.name + '@global', 'vote#' + poll_name)))
+print('white votes: ' + str(get_account_asset(white_one.name + '@' + poll_name, 'vote#' + poll_name)))
+print('grey votes: ' + str(get_account_asset(grey_one.name + '@' + poll_name, 'vote#' + poll_name)))
 
-# check_my_vote(alexey, 'vote#' + poll_name)
+check_my_vote(alexey, 'vote#' + poll_name)
 
 ###################
 poll_name = "vybory-2018-r2"
@@ -256,7 +270,7 @@ vote(alexey, white_one, poll_name)
 vote(dumitru, white_one, poll_name)
 vote(bob, grey_one, poll_name)
 
-get_account_asset(white_one.name + '@' + poll_name, 'vote#' + poll_name)
-get_account_asset(grey_one.name + '@' + poll_name, 'vote#' + poll_name)
+print('white votes: ' + str(get_account_asset(white_one.name + '@' + poll_name, 'vote#' + poll_name)))
+print('grey votes: ' + str(get_account_asset(grey_one.name + '@' + poll_name, 'vote#' + poll_name)))
 
 print("done!")
