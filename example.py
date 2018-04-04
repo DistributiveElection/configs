@@ -143,9 +143,9 @@ def add_candidate(candidate, domain, tx_buidler):
 
 def add_voter(voter, domain, tx_buidler):
     return tx_buidler \
-        .appendRole(voter.name + '@global', 'prevote') \
-        .transferAsset(creator, voter.name + '@global', 'vote#' + domain, 'grant 1 vote for ' + domain, '1') \
-        .detachRole(voter.name + '@global', 'prevote')
+        .appendRole(voter + '@global', 'prevote') \
+        .transferAsset(creator, voter + '@global', 'vote#' + domain, 'grant 1 vote for ' + domain, '1') \
+        .detachRole(voter + '@global', 'prevote')
 
 def add_poll(poll_name, candidates, voters):
     global tx_counter
@@ -204,9 +204,9 @@ def vote(voter, candidate, poll_name):
         .txCounter(tx_counter) \
         .createdTime(get_time()) \
         .transferAsset(voter.name + '@global',
-                       candidate.name + '@' + poll_name,
+                       candidate + '@' + poll_name,
                        'vote#' + poll_name,
-                       'Vote for my candidate. Candidate of the people ' + candidate.name,
+                       'Vote for my candidate. Candidate of the people ' + candidate,
                        '1') \
         .build()
 
@@ -233,44 +233,89 @@ def check_my_vote(account, asset_id):
 
 
 ##########################
+# other_manager_pub = '292a8714694095edce6be799398ed5d6244cd7be37eb813106b217d850d261f2'
+# other_manager_priv = open("manager@global.priv", "r").read()
+# other_key_pair = crypto.convertFromExisting(manager_pub, manager_priv)
+#
+# tx = tx_builder.creatorAccountId(creator) \
+#     .txCounter(tx_counter) \
+#     .createdTime(get_time()) \
+#     .addPeer('10.211.38.14:50051', other_key_pair.publicKey()) \
+#     .build()
+#
+# tx_counter += 1
+#
+# send_tx(tx, key_pair)
+# print_status_streaming(tx)
 
-poll_name = "vybory-2018"
+# poll_name = "vybory-2018"
+#
+# alexey = Account('alexey', crypto.generateKeypair())
+# dumitru = Account('dumitru', crypto.generateKeypair())
+# add_user(alexey)
+# add_user(dumitru)
+# voters = (alexey, dumitru)
+#
+# white_one = Account('mr_white', crypto.generateKeypair())
+# grey_one = Account('mr_grey', crypto.generateKeypair())
+# candidates = (white_one, grey_one)
+#
+# add_poll(poll_name, candidates, voters)
+#
+# print('alexey asset is: ' + str(get_account_asset(alexey.name + '@global', 'vote#' + poll_name)))
+# vote(alexey, white_one, poll_name)
+# vote(dumitru, white_one, poll_name)
+#
+# print('alexey asset is: ' + str(get_account_asset(alexey.name + '@global', 'vote#' + poll_name)))
+# print('white votes: ' + str(get_account_asset(white_one.name + '@' + poll_name, 'vote#' + poll_name)))
+# print('grey votes: ' + str(get_account_asset(grey_one.name + '@' + poll_name, 'vote#' + poll_name)))
+#
+# check_my_vote(alexey, 'vote#' + poll_name)
+#
+# ###################
+# poll_name = "vybory-2018-r2"
+#
+# bob = Account('bob', crypto.generateKeypair())
+# add_user(bob)
+# voters = (alexey, dumitru, bob)
+# add_poll(poll_name, candidates, voters)
+#
+# vote(alexey, white_one, poll_name)
+# vote(dumitru, white_one, poll_name)
+# vote(bob, grey_one, poll_name)
+#
+# print('white votes: ' + str(get_account_asset(white_one.name + '@' + poll_name, 'vote#' + poll_name)))
+# print('grey votes: ' + str(get_account_asset(grey_one.name + '@' + poll_name, 'vote#' + poll_name)))
+#
+# print("done!")
 
-alexey = Account('alexey', crypto.generateKeypair())
-dumitru = Account('dumitru', crypto.generateKeypair())
+tx_counter_user = 1
+tx_counter_manager = 1
+
+myname = input('Please enter your account name: ')
+alexey = Account(myname, crypto.generateKeypair())
+
 add_user(alexey)
-add_user(dumitru)
-voters = (alexey, dumitru)
 
-white_one = Account('mr_white', crypto.generateKeypair())
-grey_one = Account('mr_grey', crypto.generateKeypair())
-candidates = (white_one, grey_one)
-
-add_poll(poll_name, candidates, voters)
-
-print('alexey asset is: ' + str(get_account_asset(alexey.name + '@global', 'vote#' + poll_name)))
-vote(alexey, white_one, poll_name)
-vote(dumitru, white_one, poll_name)
-
-print('alexey asset is: ' + str(get_account_asset(alexey.name + '@global', 'vote#' + poll_name)))
-print('white votes: ' + str(get_account_asset(white_one.name + '@' + poll_name, 'vote#' + poll_name)))
-print('grey votes: ' + str(get_account_asset(grey_one.name + '@' + poll_name, 'vote#' + poll_name)))
-
-check_my_vote(alexey, 'vote#' + poll_name)
-
-###################
-poll_name = "vybory-2018-r2"
-
-bob = Account('bob', crypto.generateKeypair())
-add_user(bob)
-voters = (alexey, dumitru, bob)
-add_poll(poll_name, candidates, voters)
-
-vote(alexey, white_one, poll_name)
-vote(dumitru, white_one, poll_name)
-vote(bob, grey_one, poll_name)
-
-print('white votes: ' + str(get_account_asset(white_one.name + '@' + poll_name, 'vote#' + poll_name)))
-print('grey votes: ' + str(get_account_asset(grey_one.name + '@' + poll_name, 'vote#' + poll_name)))
-
-print("done!")
+while True:
+    print('1 - Create election')
+    print('2 - vote')
+    print('3 - get vote results')
+    action = input('Enter action: ')
+    if action == "1":
+        poll_name = input("Enter election name: ")
+        candidate_str = input("Enter candidates: ")
+        candidates = candidate_str.split(" ")
+        for i, cand in enumerate(candidates):
+            candidates[i] = Account(cand, crypto.generateKeypair())
+        voters_str = input("Enter voters: ")
+        voters = voters_str.split(" ")
+        add_poll(poll_name, candidates, voters)
+    elif action == "2":
+        vote_name = input('Enter election name: ')
+        candidate = input('Enter candidate: ')
+        vote(alexey, candidate, vote_name)
+    elif action == "3":
+        poll_name = input('Enter election name: ')
+        candidate = input('Enter candidate: ')
+        print(candidate + ' votes: ' + str(get_account_asset(candidate + '@' + poll_name, 'vote#' + poll_name)))
