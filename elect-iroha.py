@@ -233,61 +233,6 @@ def check_my_vote(account, asset_id):
 
 
 ##########################
-# other_manager_pub = '292a8714694095edce6be799398ed5d6244cd7be37eb813106b217d850d261f2'
-# other_manager_priv = open("manager@global.priv", "r").read()
-# other_key_pair = crypto.convertFromExisting(manager_pub, manager_priv)
-#
-# tx = tx_builder.creatorAccountId(creator) \
-#     .txCounter(tx_counter) \
-#     .createdTime(get_time()) \
-#     .addPeer('10.211.38.14:50051', other_key_pair.publicKey()) \
-#     .build()
-#
-# tx_counter += 1
-#
-# send_tx(tx, key_pair)
-# print_status_streaming(tx)
-
-# poll_name = "vybory-2018"
-#
-# alexey = Account('alexey', crypto.generateKeypair())
-# dumitru = Account('dumitru', crypto.generateKeypair())
-# add_user(alexey)
-# add_user(dumitru)
-# voters = (alexey, dumitru)
-#
-# white_one = Account('mr_white', crypto.generateKeypair())
-# grey_one = Account('mr_grey', crypto.generateKeypair())
-# candidates = (white_one, grey_one)
-#
-# add_poll(poll_name, candidates, voters)
-#
-# print('alexey asset is: ' + str(get_account_asset(alexey.name + '@global', 'vote#' + poll_name)))
-# vote(alexey, white_one, poll_name)
-# vote(dumitru, white_one, poll_name)
-#
-# print('alexey asset is: ' + str(get_account_asset(alexey.name + '@global', 'vote#' + poll_name)))
-# print('white votes: ' + str(get_account_asset(white_one.name + '@' + poll_name, 'vote#' + poll_name)))
-# print('grey votes: ' + str(get_account_asset(grey_one.name + '@' + poll_name, 'vote#' + poll_name)))
-#
-# check_my_vote(alexey, 'vote#' + poll_name)
-#
-# ###################
-# poll_name = "vybory-2018-r2"
-#
-# bob = Account('bob', crypto.generateKeypair())
-# add_user(bob)
-# voters = (alexey, dumitru, bob)
-# add_poll(poll_name, candidates, voters)
-#
-# vote(alexey, white_one, poll_name)
-# vote(dumitru, white_one, poll_name)
-# vote(bob, grey_one, poll_name)
-#
-# print('white votes: ' + str(get_account_asset(white_one.name + '@' + poll_name, 'vote#' + poll_name)))
-# print('grey votes: ' + str(get_account_asset(grey_one.name + '@' + poll_name, 'vote#' + poll_name)))
-#
-# print("done!")
 
 tx_counter_user = 1
 tx_counter_manager = 1
